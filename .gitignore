@@ -17,6 +17,7 @@ dist-server/
 .idea/workspace.xml
 .idea/usage.statistics.xml
 .idea/shelf
+.vite
 
 # deps
 node_modules/

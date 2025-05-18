@@ -1,12 +1,32 @@
 import { jsxRenderer } from "hono/jsx-renderer";
 
 export default jsxRenderer(({ children, title, frontmatter }) => {
+  const site = "https://recipes.qlitre.workers.dev";
+  const path = `/recipes/${frontmatter?.slug ?? ""}`;
+  const image = frontmatter?.image ?? "/static/default-og.png";
+  const desc = frontmatter?.description ?? "";
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {<title>{title ?? frontmatter?.title ?? "recipes"}</title>}
+        {/* ---- Primary ---- */}
+        <title>{title ?? frontmatter?.title ?? "recipes"}</title>
+        <meta name="description" content={desc} />
+        {/* ---- Open Graph ---- */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`${site}${path}`} />
+        <meta property="og:title" content={title ?? frontmatter?.title ?? "recipes"} />
+        <meta property="og:description" content={desc} />
+        <meta property="og:image" content={`${site}${image}`} />
+
+        {/* ---- Twitter ---- */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:url" content={`${site}${path}`} />
+        <meta name="twitter:title" content={title ?? frontmatter?.title ?? "recipes"} />
+        <meta name="twitter:description" content={desc} />
+        <meta name="twitter:image" content={`${site}${image}`} />
+
         <link rel="stylesheet" href="/static/style.css" />
       </head>
       <body>

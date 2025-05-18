@@ -56,6 +56,8 @@ cat > "$SRC_DIR/index.mdx" <<EOF
 title: レシピタイトル
 slug: ${SLUG}
 date: ${DATE}
+description: "ここに120字以内でレシピの概要を書く"
+image: /recipes/${SLUG}/hero.png
 servings: 2-3人分
 prep_time: 30m
 cook_time: "1h"
