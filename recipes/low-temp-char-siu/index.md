@@ -1,6 +1,6 @@
 ---
 title: 低温調理チャーシュー
-slug: sous-vide-char-siu
+slug: low-temp-char-siu
 servings: 3-4人分
 prep_time: 30m
 cook_time: "2h"
