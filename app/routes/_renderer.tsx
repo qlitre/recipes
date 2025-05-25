@@ -30,7 +30,7 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
         <link rel="stylesheet" href="/static/style.css" />
       </head>
       <body>
-        <header>
+        <header class="header">
           <h1>
             <a href="/">recipes</a>
           </h1>
