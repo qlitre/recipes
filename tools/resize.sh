@@ -1,65 +1,49 @@
-#!/usr/bin/env bash
-#
-# 一覧で渡された画像ファイルを一括リサイズして **上書き** します。
-# macOS 標準コマンド「sips」を利用します。
-#
-# 使い方:
-#   ./tools/resize.sh img1.jpg img2.png ...
-#   ./tools/resize.sh -w 800 *.jpg                 # 幅 800 px に変更
-#
-# オプション:
-#   -w, --width  リサイズ後の最大幅 (デフォルト 1080)
-#   -h, --help   使い方表示
-#
+#!/bin/sh
 
-set -euo pipefail
+CMDNAME=`basename $0`
 
-WIDTH=1080   # デフォルト幅
-
-# --- オプション解析 ----------------------------------------------------------
-while [[ $# -gt 0 && $1 == -* ]]; do
-  case "$1" in
-    -w|--width)
-      WIDTH=$2
-      shift 2
-      ;;
-    -h|--help)
-      echo "Usage: $0 [-w WIDTH] image1 [image2 ...]"
-      exit 0
-      ;;
-    *)
-      echo "Unknown option: $1" >&2
-      exit 1
-      ;;
-  esac
-done
-
-if [[ $# -eq 0 ]]; then
-  echo "No images specified." >&2
+if [ $# -lt 1 ]; then
+  echo "Usage: $CMDNAME slug [IMG_123.JPG IMG_124.JPG ...]" 1>&2
   exit 1
 fi
 
-# --- リサイズ処理 ------------------------------------------------------------
-for IMG in "$@"; do
-  if [[ ! -f "$IMG" ]]; then
-    echo "Skip (not found): $IMG"
+slug=$1
+shift
+
+if [ $# -eq 0 ]; then
+  files=$(echo originals/*.png)
+  if [ "$files" = "originals/*.png" ]; then
+    echo "Error: No .png files found in originals/" 1>&2
+    exit 1
+  fi
+  set -- $files
+fi
+
+OUTDIR="public/recipes/$slug"
+INDIR="originals"
+
+# スラッグ指定の出力ディレクトリが存在する前提
+if [ ! -d "$OUTDIR" ]; then
+  echo "Error: Output directory $OUTDIR does not exist." 1>&2
+  exit 1
+fi
+
+for filename in "$@"; do
+  src="$INDIR/$(basename "$filename")"
+  dest="$OUTDIR/$(basename "$filename")"
+
+  if [ ! -f "$src" ]; then
+    echo "Skip: $src not found"
     continue
   fi
 
-  # 現在の横幅を取得
-  CUR_W=$(sips -g pixelWidth "$IMG" 2>/dev/null | awk '/pixelWidth/ {print $2}')
+  echo "Copying: $src → $dest"
+  cp "$src" "$dest"
 
-  if [[ -z "$CUR_W" ]]; then
-    echo "Skip (not an image?): $IMG"
-    continue
-  fi
-
-  if (( CUR_W > WIDTH )); then
-    echo "Resizing $IMG  ($CUR_W → $WIDTH px)"
-    sips --resampleWidth "$WIDTH" "$IMG" >/dev/null
-  else
-    echo "Keep     $IMG  ($CUR_W px ≤ $WIDTH px)"
-  fi
+  echo "Resizing and optimizing: $dest"
+  sips -Z 800 "$dest" >/dev/null
+  jpegtran -copy none -optimize -outfile "$dest" "$dest"
+  sips -g pixelHeight -g pixelWidth "$dest"
 done
 
 echo "Done."
