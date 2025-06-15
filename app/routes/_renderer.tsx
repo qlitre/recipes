@@ -30,6 +30,7 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
         <meta name="twitter:description" content={desc} />
         <meta name="twitter:image" content={image} />
 
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/static/style.css" />
       </head>
       <body>

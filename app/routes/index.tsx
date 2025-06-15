@@ -7,9 +7,13 @@ export default function Top() {
   });
 
   return (
-    <div>
-      <h2>Recipes</h2>
-      <ul class="article-list">
+    <div class="wrapper">
+      <header class="page-header">
+        <h1>レシピ一覧</h1>
+        <p class="page-description">家庭で作れる簡単レシピをご紹介</p>
+      </header>
+      
+      <div class="recipe-grid">
         {Object.entries(posts).map(([id, mod]) => {
           const fm = mod.frontmatter;
           if (!fm) return null;
@@ -19,12 +23,30 @@ export default function Top() {
             .replace(/\.mdx?$/, ""); // 単体ファイル用に拡張子も保険で削除
 
           return (
-            <li>
-              <a href={`/${path}`}>{fm.title}</a>
-            </li>
+            <article class="recipe-card">
+              <a href={`/${path}`} class="recipe-link">
+                <div class="recipe-content">
+                  <h3 class="recipe-title">{fm.title}</h3>
+                  {fm.description && (
+                    <p class="recipe-description">{fm.description}</p>
+                  )}
+                  <div class="recipe-meta">
+                    {fm.servings && <span class="meta-item">👥 {fm.servings}</span>}
+                    {fm.cook_time && <span class="meta-item">🔥 {fm.cook_time}</span>}
+                  </div>
+                  {fm.tags && fm.tags.length > 0 && (
+                    <div class="recipe-tags">
+                      {fm.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} class="tag">#{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            </article>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }

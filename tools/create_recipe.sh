@@ -64,34 +64,53 @@ cook_time: "1h"
 tags: [カテゴリ1, カテゴリ2]
 ---
 
-![完成イメージ](/recipes/${SLUG}/hero.png)
-
 ## 材料
-- 材料1 … 分量
-- 材料2 … 分量
+-  ... 
+-  ... 
+
+### 調味料・たれ原料
+- ...
+- ... 
+
+### 資材
+- 
+- 
 
 ## 作り方
-1. **下準備**
-   - 手順1
-   - 手順2
 
-2. **調理**
-   - 手順1
-   - 手順2
+### 1. **下準備**
+- 手順1の説明
+![工程画像](/recipes/${SLUG}/step1.png)
+- 手順2の説明
 
-3. **仕上げ**
-   - 手順1
-   - 手順2
+### 2. **調理**
+- 手順1の説明
+![工程画像](/recipes/${SLUG}/step2.png)
+- 手順2の説明
+
+### 3. **仕上げ**
+- 手順1の説明
+![工程画像](/recipes/${SLUG}/step3.png)
+- 手順2の説明
 
 ## 注意点
 - 注意点1
 - 注意点2
 EOF
 
-# --- hero.png プレースホルダー (public) -------------------------------------
+# --- 画像プレースホルダー作成 (public) -------------------------------------
 touch "$PUBLIC_DIR/hero.png"
+touch "$PUBLIC_DIR/step1.png"
+touch "$PUBLIC_DIR/step2.png"
+touch "$PUBLIC_DIR/step3.png"
 
 echo "✅  Created recipe template"
 echo "   - Markdown : $SRC_DIR/index.mdx"
-echo "   - ImageDir : $PUBLIC_DIR (hero.png placeholder)"
-echo "   → hero.png と index.mdx を編集してレシピを完成させてください。"
+echo "   - ImageDir : $PUBLIC_DIR"
+echo "     * hero.png (ヒーロー画像)"
+echo "     * step1.png, step2.png, step3.png (工程画像)"
+echo ""
+echo "📝 Next steps:"
+echo "   1. hero.png と step*.png に実際の画像を配置"
+echo "   2. index.mdx を編集してレシピ内容を記述"
+echo "   3. 必要に応じて追加の step*.png を作成"
