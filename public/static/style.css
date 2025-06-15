@@ -144,7 +144,18 @@ figure img {
 /* Lists inside article */
 article ul,
 article ol {
-  padding-left: 1.2rem;
+  padding-left: 2rem;
+}
+
+article ul ul,
+article ol ol,
+article ul ol,
+article ol ul {
+  padding-left: 2rem;
+}
+
+article li {
+  position: relative;
 }
 
 /* Tables (if any) */
@@ -180,12 +191,125 @@ article th {
   display: block;
   font-size: 0.875rem;
   color: #888;
+  margin-bottom: 1rem;
+}
+
+/* Recipe description */
+.recipe-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Hero image in post meta */
+.hero-image {
+  margin: 1.5rem 0;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Recipe metadata display */
+.recipe-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  font-size: 0.875rem;
+  color: #666;
+  padding: 0.25rem 0.5rem;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+/* Recipe tags */
+.recipe-tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.75rem;
+  color: #555;
+  background: #e8f4f8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid #d1e7dd;
+}
+
+/* Share buttons */
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.x-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.x-share-btn:hover {
+  background: #333;
+  color: #fff;
+}
+
+.x-share-btn svg {
+  flex-shrink: 0;
 }
 
 /* ダークモード調整（任意） */
 @media (prefers-color-scheme: dark) {
   .post-date {
     color: #aaa;
+  }
+  
+  .recipe-description {
+    color: #bbb;
+  }
+  
+  .meta-item {
+    background: #333;
+    color: #ccc;
+  }
+  
+  .tag {
+    background: #2d4a4a;
+    color: #b8d4da;
+    border-color: #456;
+  }
+  
+  .x-share-btn {
+    background: #1d9bf0;
+  }
+  
+  .x-share-btn:hover {
+    background: #1a8cd8;
   }
 }
 
