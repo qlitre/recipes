@@ -8,10 +8,10 @@ export default function Top() {
 
   return (
     <div class="wrapper">
-      <header class="page-header">
+      <section class="page-header">
         <h1>レシピ一覧</h1>
         <p class="page-description">家庭で作れる簡単レシピをご紹介</p>
-      </header>
+      </section>
       
       <div class="recipe-grid">
         {Object.entries(posts).map(([id, mod]) => {
@@ -23,7 +23,7 @@ export default function Top() {
             .replace(/\.mdx?$/, ""); // 単体ファイル用に拡張子も保険で削除
 
           return (
-            <article class="recipe-card">
+            <div class="recipe-card">
               <a href={`/${path}`} class="recipe-link">
                 <div class="recipe-content">
                   <h3 class="recipe-title">{fm.title}</h3>
@@ -43,7 +43,7 @@ export default function Top() {
                   )}
                 </div>
               </a>
-            </article>
+            </div>
           );
         })}
       </div>
