@@ -19,8 +19,18 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
     tags && tags.length > 0 && `${tags.join('・')}`
   ].filter(Boolean).join('｜');
 
+  // Create OGP props for Layout
+  const layoutProps = {
+    description: autoDescription,
+    frontmatter: {
+      ...frontmatter,
+      // Ensure image is absolute URL for OGP
+      image: frontmatter?.image ? `https://recipes.qlitre.workers.dev${frontmatter.image}` : undefined
+    }
+  };
+
   return (
-    <Layout description={autoDescription}>
+    <Layout {...layoutProps}>
       <header class="post-meta">
         {title && <h1 class="post-title">{title}</h1>}
         {date && (
