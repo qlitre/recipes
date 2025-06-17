@@ -32,12 +32,28 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
 
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="stylesheet" href="/static/style.css" />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              const savedTheme = localStorage.getItem('theme');
+              const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+              const theme = savedTheme || systemTheme;
+              document.documentElement.setAttribute('data-theme', theme);
+            })();
+          `
+        }} />
       </head>
       <body>
         <header class="header">
-          <h1>
-            <a href="/">recipes</a>
-          </h1>
+          <div class="header-content">
+            <h1>
+              <a href="/">recipes</a>
+            </h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="テーマ切り替え">
+              <span class="theme-icon light-icon">☀️</span>
+              <span class="theme-icon dark-icon">🌙</span>
+            </button>
+          </div>
         </header>
         <main>
           <article>{children}</article>
@@ -45,6 +61,25 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
         <footer>
           <p>&copy; 2025 qlitre.</p>
         </footer>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            document.addEventListener('DOMContentLoaded', function() {
+              const themeToggle = document.getElementById('theme-toggle');
+              const html = document.documentElement;
+              
+              function updateTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+              }
+              
+              themeToggle.addEventListener('click', function() {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                updateTheme(newTheme);
+              });
+            });
+          `
+        }} />
       </body>
     </html>
   );
