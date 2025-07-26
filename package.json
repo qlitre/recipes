@@ -9,14 +9,14 @@
   },
   "private": true,
   "devDependencies": {
-    "@hono/vite-ssg": "^0.1.0",
-    "@mdx-js/rollup": "^3.0.0",
-    "remark-frontmatter": "^5.0.0",
-    "remark-mdx-frontmatter": "^4.0.0",
     "@cloudflare/workers-types": "^4.20240529.0",
     "@hono/vite-build": "^1.0.0",
     "@hono/vite-dev-server": "^0.15.1",
+    "@hono/vite-ssg": "^0.1.0",
+    "@mdx-js/rollup": "^3.0.0",
     "prettier": "^3.5.3",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^4.0.0",
     "typescript": "5.5.3",
     "vite": "^5.4.8",
     "wrangler": "^3.57.2"
