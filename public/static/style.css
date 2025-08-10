@@ -302,6 +302,20 @@ article li {
   position: relative;
 }
 
+/* Links in article content */
+article a {
+  color: #0066cc;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+article a:hover {
+  color: #0052a3;
+  text-decoration-thickness: 2px;
+}
+
 /* Tables (if any) */
 article table {
   width: 100%;
@@ -552,6 +566,15 @@ footer {
   color: #aaa;
 }
 
+/* Dark mode link styles */
+[data-theme="dark"] article a {
+  color: #66b3ff;
+}
+
+[data-theme="dark"] article a:hover {
+  color: #4da6ff;
+}
+
 /* システム設定によるダークモード対応（フォールバック） */
 @media (prefers-color-scheme: dark) {
   body:not([data-theme]) {
@@ -584,6 +607,15 @@ footer {
   body:not([data-theme]) article {
     background: #242424;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* System dark mode link styles */
+  body:not([data-theme]) article a {
+    color: #66b3ff;
+  }
+  
+  body:not([data-theme]) article a:hover {
+    color: #4da6ff;
   }
 }
   
