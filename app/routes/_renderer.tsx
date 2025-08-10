@@ -49,10 +49,15 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
             <h1>
               <a href="/">recipes</a>
             </h1>
-            <button id="theme-toggle" class="theme-toggle" aria-label="テーマ切り替え">
-              <span class="theme-icon light-icon">☀️</span>
-              <span class="theme-icon dark-icon">🌙</span>
-            </button>
+            <div class="header-actions">
+              <a href="https://github.com/qlitre/recipes" target="_blank" class="github-link">
+                📖 GitHub
+              </a>
+              <button id="theme-toggle" class="theme-toggle" aria-label="テーマ切り替え">
+                <span class="theme-icon light-icon">☀️</span>
+                <span class="theme-icon dark-icon">🌙</span>
+              </button>
+            </div>
           </div>
         </header>
         <main>
