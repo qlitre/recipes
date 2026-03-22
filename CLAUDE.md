@@ -1,42 +1,57 @@
 # CLAUDE.md
+
 日本語で回答してください
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-This is a Japanese recipe management application built with HonoX and deployed to Cloudflare Workers. The site displays cooking recipes (particularly low-temperature cooking techniques) with structured markdown content and images.
+日本語のレシピ管理サイト。HonoX + MDX で構築し、Vite SSG で静的サイト生成して Cloudflare Workers にデプロイする。
 
-## Common Commands
+## Commands
 
-- `yarn dev` - Start development server
-- `yarn build` - Build for production
-- `yarn preview` - Preview build locally using wrangler
-- `yarn deploy` - Build and deploy to Cloudflare Workers
+- `yarn dev` - 開発サーバー起動
+- `yarn build` - 本番ビルド（Vite SSG で静的HTML生成 → `dist/`）
+- `yarn preview` - `wrangler dev` でビルド結果をローカル確認
+- `yarn deploy` - ビルド＋Cloudflare Workers へデプロイ
 
 ## Architecture
 
-### Framework Stack
-- **HonoX**: Full-stack framework built on Hono
-- **Cloudflare Workers**: Deployment target with edge computing
-- **MDX**: Markdown with JSX for recipe content
-- **Vite**: Build tool with SSG (Static Site Generation)
+### ビルドパイプライン
 
-### Project Structure
-- `app/routes/` - File-based routing with HonoX
-  - `recipes/{slug}/index.mdx` - Individual recipe pages
-  - `_renderer.tsx` - Layout and SEO metadata handling
-- `public/recipes/{slug}/` - Recipe images (hero.png, step*.png)
-- `tools/` - Utility scripts for recipe creation and image processing
+`vite.config.ts` で3つのプラグインを連携:
+1. **honox()** - HonoX のファイルベースルーティング
+2. **ssg({ entry })** - `app/server.ts` をエントリに静的サイト生成
+3. **mdx()** - MDX を `hono/jsx` で処理。`remark-frontmatter` + `remark-mdx-frontmatter` で frontmatter を `export const frontmatter` に変換
 
-### Recipe Content Model
-Each recipe is a standalone MDX file with frontmatter containing:
-- `title`, `slug`, `date`, `description` (required)
-- `image` - Hero image path
-- `servings`, `prep_time`, `cook_time` - Recipe metadata
-- `tags` - Categories for filtering
+### レンダラーの二層構造
 
-### Recipe Creation Workflow
-Use `./tools/create_recipe.sh slug=recipe-name [date=YYYY-MM-DD]` to scaffold new recipes with proper directory structure and frontmatter template.
+- `app/routes/_renderer.tsx` - ルートレイアウト。HTML shell、`<head>`（OGP/Twitter Card メタタグ）、ヘッダー、フッター、ダークモード切り替え
+- `app/routes/recipes/_renderer.tsx` - レシピ専用レイアウト。frontmatter からタイトル・日付・メタ情報・ヒーロー画像・タグ・Xシェアボタンを自動レンダリング
 
-### SEO and Social Sharing
-The `_renderer.tsx` handles Open Graph and Twitter Card metadata automatically from recipe frontmatter, with fallbacks for missing data.
+レシピMDXの frontmatter は親レイアウトの `_renderer.tsx` に `frontmatter` prop として渡され、OGP メタタグの生成に使われる。
+
+### 型定義
+
+- `app/types.ts` - `Meta` 型（frontmatter のスキーマ）
+- `app/global.d.ts` - Hono の `ContextRenderer` を拡張して frontmatter を受け取れるよう宣言
+
+### レシピの追加方法
+
+```bash
+./tools/create_recipe.sh slug=recipe-name [date=YYYY-MM-DD]
+```
+
+以下が生成される:
+- `app/routes/recipes/{slug}/index.mdx` - frontmatter テンプレート付きMDX
+- `public/recipes/{slug}/hero.png, step1-3.png` - 画像プレースホルダ
+
+トップページ（`app/routes/index.tsx`）は `import.meta.glob` で全 `.mdx` を eager import し、レシピ一覧を自動生成する。
+
+### 画像処理
+
+`tools/resize.sh` で `originals/` 内の画像を 800px にリサイズ・最適化して `public/recipes/{slug}/` に配置。`sips` と `jpegtran` を使用（macOS 前提）。
+
+### デプロイ
+
+`wrangler.jsonc` で `dist/` を assets ディレクトリに指定。SSG で生成された静的ファイルが Cloudflare Workers の assets として配信される。
