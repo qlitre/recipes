@@ -82,6 +82,9 @@ export default jsxRenderer(({ children, Layout, frontmatter }) => {
         </div>
       </header>
       {children}
+      <nav class="back-nav">
+        <a href="/" class="back-link">← レシピ一覧に戻る</a>
+      </nav>
     </Layout>
   );
 });
