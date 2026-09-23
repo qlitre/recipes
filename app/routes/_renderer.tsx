@@ -24,7 +24,7 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
         <meta property="og:image" content={image} />
 
         {/* ---- Twitter ---- */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:url" content={`${site}${path}`} />
         <meta name="twitter:title" content={title ?? frontmatter?.title ?? "recipes"} />
         <meta name="twitter:description" content={desc} />
