@@ -64,7 +64,7 @@ export default jsxRenderer(({ children, title, frontmatter }) => {
           <article>{children}</article>
         </main>
         <footer>
-          <p>&copy; 2025 qlitre.</p>
+          <p>&copy; 2026 qlitre.</p>
         </footer>
         <script dangerouslySetInnerHTML={{
           __html: `
